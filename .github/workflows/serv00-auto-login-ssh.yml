@@ -1,0 +1,16 @@
+name: 自动登录 serv00 ssh
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '13 21 * * 1'  # 每周一登录一次
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          cat > ~/.ssh/id_rsa <<EOF
+          ${{ secrets.ID_RSA }}
+          EOF
+      - run: echo "date +\"%Y-%m-%d %H:%M:%S\" >> autoLoginLog.txt" | ssh ${{ secrets.USER }}@${{ secrets.SERVER }} -p 80 -o StrictHostKeyChecking=no
+
