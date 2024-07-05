@@ -13,6 +13,7 @@ jobs:
           cat > ~/.ssh/id_rsa <<EOF
           ${{ secrets.ID_RSA }}
           EOF
-      - run: chmod +rw ~/.ssh/id_rsa
+      - run: chmod 700 ~/.ssh/
+      - run: chmod 600 ~/.ssh/id_rsa
       - run: echo "date +\"%Y-%m-%d %H:%M:%S\" >> autoLoginLog.txt" | ssh ${{ secrets.USER }}@${{ secrets.SERVER }} -p 80 -o StrictHostKeyChecking=no
 
